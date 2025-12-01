@@ -1,110 +1,501 @@
-age_first_child,total_children,education_level,location_type
-28,2,Universidad,Urbana
-21,3,Secundaria,Rural
-35,1,Postgrado,Urbana
-25,2,Secundaria,Urbana
-20,4,Primaria,Rural
-30,2,Universidad,Urbana
-23,3,Secundaria,Rural
-33,1,Postgrado,Urbana
-26,2,Universidad,Urbana
-22,3,Secundaria,Rural
-34,1,Postgrado,Urbana
-24,3,Secundaria,Urbana
-29,2,Universidad,Urbana
-21,4,Secundaria,Rural
-36,1,Postgrado,Urbana
-27,2,Universidad,Urbana
-22,3,Secundaria,Rural
-32,1,Postgrado,Urbana
-25,3,Secundaria,Urbana
-20,4,Primaria,Rural
-31,2,Universidad,Urbana
-24,3,Secundaria,Rural
-35,1,Postgrado,Urbana
-26,2,Universidad,Urbana
-20,4,Primaria,Rural
-30,2,Universidad,Urbana
-23,3,Secundaria,Rural
-34,1,Postgrado,Urbana
-27,2,Universidad,Urbana
-21,3,Secundaria,Rural
-36,1,Postgrado,Urbana
-28,2,Universidad,Urbana
-23,4,Secundaria,Rural
-33,1,Postgrado,Urbana
-25,3,Secundaria,Urbana
-20,5,Primaria,Rural
-31,2,Universidad,Urbana
-24,3,Secundaria,Rural
-35,1,Postgrado,Urbana
-26,2,Universidad,Urbana
-22,4,Secundaria,Rural
-32,1,Postgrado,Urbana
-27,2,Universidad,Urbana
-21,3,Secundaria,Rural
-34,1,Postgrado,Urbana
-25,2,Secundaria,Urbana
-20,4,Primaria,Rural
-30,2,Universidad,Urbana
-23,3,Secundaria,Rural
-35,1,Postgrado,Urbana
-26,2,Universidad,Urbana
-22,3,Secundaria,Rural
-34,1,Postgrado,Urbana
-24,3,Secundaria,Urbana
-29,2,Universidad,Urbana
-21,4,Secundaria,Rural
-36,1,Postgrado,Urbana
-27,2,Universidad,Urbana
-22,3,Secundaria,Rural
-32,1,Postgrado,Urbana
-25,3,Secundaria,Urbana
-20,4,Primaria,Rural
-31,2,Universidad,Urbana
-24,3,Secundaria,Rural
-35,1,Postgrado,Urbana
-26,2,Universidad,Urbana
-20,4,Primaria,Rural
-30,2,Universidad,Urbana
-23,3,Secundaria,Rural
-34,1,Postgrado,Urbana
-27,2,Universidad,Urbana
-21,3,Secundaria,Rural
-36,1,Postgrado,Urbana
-28,2,Universidad,Urbana
-23,4,Secundaria,Rural
-33,1,Postgrado,Urbana
-25,3,Secundaria,Urbana
-20,5,Primaria,Rural
-31,2,Universidad,Urbana
-24,3,Secundaria,Rural
-35,1,Postgrado,Urbana
-26,2,Universidad,Urbana
-22,4,Secundaria,Rural
-32,1,Postgrado,Urbana
-27,2,Universidad,Urbana
-21,3,Secundaria,Rural
-34,1,Postgrado,Urbana
-25,2,Secundaria,Urbana
-20,4,Primaria,Rural
-30,2,Universidad,Urbana
-23,3,Secundaria,Rural
-35,1,Postgrado,Urbana
-26,2,Universidad,Urbana
-22,3,Secundaria,Rural
-34,1,Postgrado,Urbana
-24,3,Secundaria,Urbana
-29,2,Universidad,Urbana
-21,4,Secundaria,Rural
-36,1,Postgrado,Urbana
-27,2,Universidad,Urbana
-22,3,Secundaria,Rural
-32,1,Postgrado,Urbana
-25,3,Secundaria,Urbana
-20,4,Primaria,Rural
-31,2,Universidad,Urbana
-24,3,Secundaria,Rural
-35,1,Postgrado,Urbana
-26,2,Universidad,Urbana
-20,4,Primaria,Rural
+annual_income_k,child_spending_k,education_level,family_size
+52.73,9.71,High School,2
+110.73,13.54,Postgraduate,5
+77.42,14.09,University,3
+57.68,8.49,University,5
+59.44,6.29,High School,5
+45.07,7.99,High School,4
+52.21,6.77,High School,3
+94.11,20.41,Postgraduate,2
+70.05,9.91,University,2
+79.24,12.88,University,4
+47.5,2.82,High School,3
+79.82,10.15,Postgraduate,5
+98.54,12.62,Postgraduate,5
+49.99,5.23,High School,3
+50.92,8.9,High School,5
+45.49,10.03,High School,4
+55.16,9.08,High School,3
+72.03,10.19,University,3
+52.69,10.55,University,4
+52.01,5.42,High School,2
+85.02,12.07,University,5
+51.76,2.82,High School,2
+49.88,7.42,High School,5
+37.81,6.71,High School,3
+56.96,9.45,University,4
+63.9,15.91,Postgraduate,5
+41.19,5.82,High School,5
+79.97,10.68,University,4
+60.14,9.53,University,3
+54.93,5.64,High School,3
+61.85,7.43,University,2
+63.46,11.9,High School,5
+45.57,3.31,High School,3
+75.38,8.81,Postgraduate,3
+96.18,18.76,Postgraduate,4
+75.29,12.16,Postgraduate,5
+49.1,5.49,High School,2
+51.45,4.78,High School,5
+64.53,6.33,University,3
+77.69,9.16,University,3
+63.16,7.13,High School,3
+78.67,12.05,University,4
+42.22,5.21,High School,3
+75.96,7.51,Postgraduate,5
+43.95,2.71,High School,3
+81.9,11.96,University,3
+43.81,4.63,High School,2
+66.5,4.67,University,3
+69.92,13.04,University,4
+62.5,8.5,High School,4
+84.71,17.98,Postgraduate,4
+71.72,8.3,Postgraduate,5
+101.11,21.52,Postgraduate,5
+65.05,10.35,Postgraduate,2
+66.39,8.77,University,3
+87.53,7.63,Postgraduate,3
+45.26,3.88,High School,4
+51.39,7.8,High School,4
+51.9,6.72,High School,2
+64.36,7.59,High School,3
+50.79,7.45,High School,5
+59.94,7.04,High School,2
+83.23,10.51,Postgraduate,4
+55.12,5.15,High School,5
+52.08,4.62,High School,5
+70.13,7.89,University,4
+72.27,5.77,High School,2
+81.02,6.98,Postgraduate,2
+58.05,5.93,High School,2
+89.14,11.4,Postgraduate,3
+68.76,8.11,Postgraduate,2
+53.61,7.59,High School,3
+52.97,5.27,High School,2
+83.9,9.95,Postgraduate,2
+74.88,13.96,University,5
+75.79,11.71,University,2
+84.15,12.25,Postgraduate,2
+45.41,4.22,High School,3
+32.34,4.53,High School,2
+63.67,9.13,High School,5
+65.54,7.66,Postgraduate,4
+77.08,15.65,University,4
+37.36,4.51,High School,2
+55.49,2.45,High School,2
+51.88,7.61,High School,4
+35.06,2.83,High School,4
+61.25,7.69,University,4
+69.87,12.1,University,3
+92.18,15.44,Postgraduate,3
+78.28,13.18,University,4
+62.08,8.17,High School,4
+65.94,9.8,University,2
+86.76,11.14,Postgraduate,2
+59.81,14.92,University,5
+101.57,18.98,Postgraduate,4
+83.3,16.06,University,3
+62.26,5.98,University,4
+68.88,10.36,University,3
+42.87,1.0,High School,3
+56.1,7.11,High School,5
+69.57,8.58,High School,4
+76.43,14.14,University,5
+64.26,8.77,High School,5
+63.97,11.82,University,2
+109.12,16.03,Postgraduate,5
+47.37,4.84,High School,3
+95.39,14.51,University,2
+106.77,15.15,Postgraduate,3
+41.9,2.05,High School,2
+37.55,1.0,High School,4
+37.98,4.09,High School,5
+48.47,6.38,High School,2
+57.64,9.07,Postgraduate,5
+102.47,14.44,Postgraduate,4
+59.83,9.51,University,5
+117.32,14.21,Postgraduate,3
+120.88,19.51,Postgraduate,2
+39.1,1.25,High School,5
+88.62,14.61,Postgraduate,2
+55.66,11.02,University,5
+81.45,13.33,Postgraduate,3
+92.82,19.94,Postgraduate,3
+33.37,1.77,High School,3
+47.15,6.09,High School,5
+38.74,3.25,High School,3
+84.15,12.06,University,4
+95.82,13.17,Postgraduate,2
+104.67,10.66,Postgraduate,4
+55.77,4.66,High School,2
+52.91,9.63,University,2
+75.0,8.18,University,4
+56.9,7.95,High School,5
+55.69,7.48,High School,4
+47.79,3.83,High School,4
+69.96,16.14,Postgraduate,3
+51.82,7.56,High School,4
+62.96,5.72,University,4
+81.85,9.99,University,2
+35.97,3.34,High School,5
+92.0,11.99,Postgraduate,4
+91.37,15.04,Postgraduate,2
+68.23,3.18,High School,2
+91.55,14.3,University,4
+54.94,4.43,High School,3
+50.15,6.64,High School,2
+58.82,9.13,High School,3
+53.7,8.73,University,2
+69.31,4.03,University,5
+52.05,8.01,High School,5
+49.21,10.04,High School,3
+88.1,16.35,Postgraduate,5
+46.65,8.22,High School,3
+54.14,5.19,High School,4
+71.47,9.52,University,2
+71.71,9.24,Postgraduate,5
+51.84,7.0,High School,5
+60.51,14.26,University,4
+68.94,10.68,Postgraduate,4
+54.86,3.85,High School,4
+73.75,8.02,University,3
+49.72,9.15,High School,4
+60.55,13.54,University,4
+75.0,11.67,University,5
+66.92,7.92,University,4
+49.4,7.05,High School,4
+98.3,19.33,Postgraduate,2
+60.29,9.15,High School,3
+60.84,9.15,High School,2
+53.44,6.79,High School,4
+57.49,13.78,University,4
+74.47,9.96,University,3
+60.85,6.66,High School,4
+70.28,9.91,University,3
+67.53,8.72,High School,3
+55.95,8.94,University,5
+58.15,6.89,High School,4
+82.56,9.59,University,5
+60.67,7.85,High School,5
+82.19,16.07,Postgraduate,3
+28.82,4.77,High School,5
+50.66,8.0,High School,5
+70.78,7.32,High School,5
+69.82,6.25,Postgraduate,2
+67.66,9.99,Postgraduate,3
+41.97,3.65,High School,2
+74.6,9.89,University,4
+66.8,7.31,Postgraduate,5
+63.51,10.66,University,5
+79.84,10.71,University,3
+56.65,7.17,High School,3
+59.34,10.04,High School,2
+85.01,13.31,Postgraduate,3
+82.35,16.51,Postgraduate,2
+57.51,9.31,University,2
+47.01,3.53,High School,3
+51.36,6.16,High School,4
+64.48,10.42,University,5
+63.05,7.63,Postgraduate,4
+96.52,18.48,Postgraduate,2
+79.13,15.39,Postgraduate,5
+56.21,6.26,University,2
+50.36,4.91,High School,2
+55.56,4.76,High School,2
+90.52,17.37,Postgraduate,4
+65.11,11.41,University,3
+58.83,7.3,High School,2
+51.92,6.78,High School,5
+63.62,7.86,University,5
+56.56,7.7,High School,2
+42.57,6.18,High School,2
+66.3,7.45,University,3
+85.67,12.75,University,5
+71.91,10.17,University,2
+47.74,4.14,High School,5
+84.95,12.36,University,3
+59.49,6.71,High School,5
+54.86,6.92,High School,2
+64.44,10.1,University,5
+68.14,8.65,University,2
+99.02,18.58,Postgraduate,3
+81.95,8.12,University,4
+64.13,13.18,University,4
+52.94,5.41,High School,4
+59.09,6.27,High School,4
+45.56,8.85,High School,3
+55.43,6.56,High School,4
+75.24,11.54,Postgraduate,4
+45.66,7.06,High School,5
+92.93,13.29,Postgraduate,3
+74.31,10.94,University,2
+75.27,16.69,Postgraduate,2
+51.53,5.97,University,3
+67.59,10.24,University,2
+73.54,9.66,University,5
+57.6,6.3,High School,5
+57.84,8.44,University,2
+52.74,7.15,High School,4
+63.01,3.1,High School,4
+60.56,9.19,University,2
+48.71,3.43,High School,3
+81.88,18.14,Postgraduate,3
+83.11,12.0,Postgraduate,3
+70.9,12.93,Postgraduate,5
+52.37,6.21,High School,2
+46.38,1.2,High School,4
+100.82,19.7,Postgraduate,2
+73.72,11.37,University,5
+101.28,18.57,Postgraduate,2
+89.96,11.15,Postgraduate,3
+82.69,10.02,Postgraduate,5
+42.99,5.23,High School,2
+38.92,2.68,High School,3
+111.57,19.65,Postgraduate,3
+52.82,6.58,High School,2
+64.5,8.38,High School,5
+71.46,11.15,University,5
+102.59,14.92,Postgraduate,4
+76.51,15.06,University,3
+68.02,12.42,University,4
+63.49,6.79,High School,5
+63.49,7.82,University,2
+71.31,14.36,Postgraduate,3
+41.75,4.06,High School,4
+64.37,8.83,University,5
+110.73,18.94,Postgraduate,3
+75.06,6.11,University,4
+58.72,9.46,University,4
+65.88,6.12,University,4
+47.94,2.75,High School,3
+49.27,6.82,High School,5
+67.63,8.3,Postgraduate,5
+90.34,18.88,Postgraduate,3
+92.69,17.76,Postgraduate,5
+89.01,13.2,Postgraduate,5
+53.67,6.25,University,4
+61.12,5.56,University,4
+107.72,21.1,Postgraduate,4
+77.49,9.27,University,5
+73.24,9.61,University,2
+79.27,12.29,Postgraduate,2
+99.26,7.91,Postgraduate,2
+44.51,5.84,High School,2
+52.99,6.2,High School,3
+63.73,10.42,High School,5
+69.53,10.78,University,4
+48.8,7.65,High School,5
+49.05,7.43,University,3
+68.37,7.05,University,5
+62.01,8.97,High School,5
+57.03,4.66,University,4
+56.78,9.01,High School,2
+55.66,8.43,High School,5
+102.36,17.05,Postgraduate,5
+45.87,5.58,High School,3
+50.39,4.81,High School,5
+71.49,8.96,University,4
+98.79,15.58,Postgraduate,2
+51.53,4.57,High School,5
+71.39,10.99,University,2
+37.64,5.42,High School,4
+66.71,7.75,High School,5
+62.67,9.89,University,2
+72.77,8.76,University,5
+78.05,8.25,University,4
+71.5,10.81,University,3
+98.02,14.24,Postgraduate,4
+65.51,9.32,University,5
+54.94,6.85,High School,3
+109.6,14.33,Postgraduate,3
+42.08,4.26,High School,5
+80.05,10.65,University,2
+47.9,4.83,High School,4
+48.05,7.5,High School,3
+88.66,16.34,Postgraduate,3
+98.66,17.56,Postgraduate,4
+66.8,11.44,University,3
+68.27,9.59,University,4
+60.7,10.14,High School,4
+42.92,7.94,High School,2
+58.51,11.06,High School,4
+86.42,14.32,University,3
+70.03,13.37,University,2
+70.59,12.36,University,3
+36.95,4.74,High School,5
+106.61,18.64,Postgraduate,3
+78.55,13.15,University,4
+67.47,10.31,University,4
+57.83,7.04,University,2
+62.46,8.13,University,2
+53.69,10.67,High School,3
+57.77,5.82,High School,4
+80.05,13.27,Postgraduate,3
+42.08,6.74,High School,5
+50.73,8.45,High School,4
+42.25,6.06,High School,2
+45.35,3.83,High School,2
+70.88,12.57,Postgraduate,5
+61.77,8.32,University,3
+64.21,9.13,University,3
+51.98,10.29,High School,5
+62.98,7.36,University,3
+65.37,6.77,University,3
+47.8,7.09,High School,3
+61.43,6.27,University,5
+47.64,7.96,High School,3
+75.87,12.12,University,3
+92.23,10.19,University,4
+54.02,5.83,High School,2
+48.52,5.59,High School,5
+59.37,6.68,University,4
+54.63,8.24,University,3
+83.43,13.81,Postgraduate,2
+61.96,12.28,University,3
+63.67,6.9,High School,4
+52.42,5.33,High School,3
+71.69,10.59,University,5
+45.35,3.62,High School,4
+81.62,8.01,University,2
+80.89,13.04,Postgraduate,2
+71.96,8.75,University,5
+52.65,7.82,High School,3
+67.53,6.07,University,3
+76.95,15.06,University,3
+50.49,5.68,University,3
+96.7,15.68,Postgraduate,2
+60.49,8.51,High School,4
+79.02,12.87,Postgraduate,2
+61.97,8.52,Postgraduate,4
+41.26,4.38,High School,2
+56.92,8.21,High School,2
+50.6,8.28,High School,3
+56.51,5.55,High School,5
+51.07,5.85,High School,3
+67.09,8.5,University,2
+44.37,4.89,High School,4
+50.48,3.16,High School,4
+76.76,6.25,Postgraduate,5
+52.92,8.87,High School,5
+85.38,14.96,Postgraduate,4
+57.09,2.72,High School,2
+57.35,6.36,High School,3
+62.97,9.77,University,4
+64.93,8.57,University,2
+98.55,16.1,Postgraduate,3
+69.75,11.56,University,3
+93.44,14.63,Postgraduate,3
+47.03,3.86,High School,5
+57.61,1.0,High School,4
+90.68,15.99,Postgraduate,5
+92.9,12.15,Postgraduate,4
+55.34,9.68,Postgraduate,5
+70.49,9.36,University,4
+48.29,8.48,High School,3
+109.67,17.27,Postgraduate,4
+45.49,4.72,High School,2
+81.49,15.43,Postgraduate,4
+85.34,14.13,Postgraduate,5
+57.26,9.39,University,2
+71.59,14.01,Postgraduate,5
+101.41,17.42,Postgraduate,3
+39.06,4.28,High School,4
+66.67,18.23,Postgraduate,4
+78.79,12.71,University,3
+83.19,12.22,Postgraduate,2
+45.63,6.18,High School,4
+71.61,14.35,Postgraduate,3
+42.05,4.99,High School,5
+49.92,9.98,High School,5
+89.67,11.73,Postgraduate,5
+46.88,6.62,High School,3
+31.58,2.99,High School,5
+86.31,16.68,Postgraduate,3
+81.97,16.03,Postgraduate,2
+73.25,9.89,University,5
+69.12,11.7,University,4
+45.68,6.18,University,3
+60.41,10.06,High School,5
+58.09,6.74,High School,2
+70.89,13.71,University,2
+99.52,19.36,Postgraduate,4
+73.83,9.09,Postgraduate,4
+82.67,16.57,Postgraduate,3
+52.26,5.0,High School,5
+68.74,8.05,University,4
+57.97,5.59,High School,2
+67.89,9.25,University,2
+64.17,9.07,University,3
+80.63,11.86,Postgraduate,4
+50.46,6.54,High School,2
+50.33,7.53,High School,5
+43.17,5.83,High School,4
+92.76,12.3,Postgraduate,2
+59.55,4.01,University,5
+41.08,4.27,High School,5
+46.13,4.94,High School,5
+66.79,9.35,University,2
+56.88,5.78,High School,4
+85.8,15.27,Postgraduate,4
+78.38,9.18,University,2
+39.65,5.18,High School,5
+51.45,3.84,High School,4
+93.53,10.16,Postgraduate,2
+49.25,5.75,High School,4
+40.43,4.78,High School,5
+93.71,19.76,Postgraduate,2
+97.92,19.69,Postgraduate,3
+111.74,19.62,Postgraduate,4
+102.02,16.9,Postgraduate,2
+48.89,3.66,High School,5
+54.77,7.96,High School,4
+105.46,15.69,Postgraduate,4
+81.0,9.45,University,3
+58.04,9.1,University,2
+98.24,9.52,Postgraduate,5
+38.4,2.62,High School,4
+68.94,12.34,University,4
+63.82,6.94,High School,5
+65.42,8.37,University,3
+63.45,6.26,High School,2
+46.67,3.48,High School,2
+45.59,10.07,High School,3
+64.62,9.71,University,3
+88.61,16.56,University,3
+95.12,12.57,University,4
+99.34,14.35,Postgraduate,2
+42.06,5.74,High School,5
+58.93,5.9,High School,3
+96.64,14.08,Postgraduate,4
+40.87,4.56,High School,4
+79.47,14.91,Postgraduate,4
+53.84,4.0,High School,4
+99.28,18.35,Postgraduate,3
+41.81,8.35,High School,5
+74.07,11.81,Postgraduate,4
+81.47,10.74,University,4
+93.65,11.13,Postgraduate,3
+51.13,2.95,High School,2
+65.89,10.39,University,2
+85.57,14.82,Postgraduate,2
+76.94,10.55,University,5
+69.72,13.66,University,2
+67.26,7.22,University,5
+73.53,10.56,University,3
+78.86,9.52,University,3
+79.14,9.31,University,3
+84.24,15.48,Postgraduate,2
+45.79,5.47,High School,5
+58.42,10.67,High School,2
+60.91,12.22,Postgraduate,4
+88.19,13.45,Postgraduate,5
+72.47,10.34,University,4
+67.42,11.48,University,3
+37.5,3.55,High School,2
+53.27,6.38,High School,2
+58.9,9.49,University,5
+39.84,2.85,High School,2
+53.85,10.1,University,2
+43.42,4.91,High School,3
+102.21,23.81,Postgraduate,2
+84.1,9.54,Postgraduate,4

@@ -19,6 +19,7 @@ execute:
   message: false
 ---
 
+## Data Loading
 
 ```{python}
 import pandas as pd
@@ -30,4 +31,17 @@ path = "/home/fabri/Projects/data-visualization-gallery/resources/natality.csv"
 data = pd.read_csv(path)
 
 print(data.head())
+```
+
+## Building de graph
+
+```{python}
+# Overall distribution
+plt.figure(figsize=(10, 5))
+sns.scatterplot(data=data, x="annual_income_k", y="child_spending_k", hue="education_level")
+plt.title("People who earn more spend more in their childs?", fontsize=14, fontweight='bold')
+plt.xlabel("Anual Income(k)")
+plt.ylabel("Child Spending (k)")
+plt.tight_layout()
+plt.show()
 ```
