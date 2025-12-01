@@ -1,0 +1,33 @@
+---
+title: "Age Distribution Analysis"
+author: "Fabricio Lennart"
+date: "2025-30-11"
+format:
+  html:
+    theme: flatly
+    toc: true
+    toc-location: body
+    toc-depth: 2
+    code-fold: true
+    code-summary: "Show Code"
+    smooth-scroll: true
+    minimal: true
+jupyter: python3
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+
+```{python}
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Load data
+path = "/home/fabri/Projects/data-visualization-gallery/resources/natality.csv"
+data = pd.read_csv(path)
+
+print(data.head())
+```

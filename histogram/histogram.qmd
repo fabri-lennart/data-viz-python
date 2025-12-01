@@ -1,0 +1,81 @@
+---
+title: "Age Distribution Analysis"
+author: "Fabricio Lennart"
+date: "2025-30-11"
+format:
+  html:
+    theme: flatly
+    toc: true
+    toc-location: body
+    toc-depth: 2
+    code-fold: true
+    code-summary: "Show Code"
+    smooth-scroll: true
+    minimal: true
+jupyter: python3
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+## Data Loading
+
+```{python}
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Load data
+path = "/home/fabri/Projects/data-visualization-gallery/resources/ages_gaussian.csv"
+data = pd.read_csv(path)
+
+print(data.head())
+```
+
+## Overall Age Distribution
+
+First, we visualize the **complete dataset** without gender segmentation to understand the general age pattern.
+
+```{python}
+# Overall distribution
+plt.figure(figsize=(10, 5))
+sns.histplot(data=data, x="age_years", kde=True, bins=15, color="#2ecc71")
+plt.title("Overall Age Distribution", fontsize=14, fontweight='bold')
+plt.xlabel("Age (years)")
+plt.ylabel("Frequency")
+plt.tight_layout()
+plt.show()
+```
+
+## Age Distribution by Gender
+
+Now we compare distributions across three gender categories using **faceted histograms**.
+
+```{python}
+# Distribution by gender
+sns.displot(
+    data=data,
+    x="age_years",
+    col="gender",
+    kde=True,
+    bins=15,
+    height=4,
+    aspect=1.2,
+    color="#3498db"
+)
+plt.tight_layout()
+plt.show()
+```
+
+## Key Findings
+
+**Female:** <span style="color: #e74c3c;">**Unimodal Gaussian**</span> distribution centered at 30-40 years with low variability.
+
+**Male:** <span style="color: #e67e22;">**Bimodal pattern**</span> with peaks at 30-35 and 40-45 years, suggesting two distinct age cohorts.
+
+**Other:** <span style="color: #9b59b6;">**Platykurtic distribution**</span> with higher dispersion and no clear central peak.
+
+---
+
+*Built with pandas, seaborn & matplotlib*
