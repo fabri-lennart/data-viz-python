@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Fabricio Lennart">
+<meta name="dcterms.date" content="2025-11-30">
+
+<title>🌍 Visualización de Datos Geográficos: Mi Mapa de Viajes</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="maps_files/libs/clipboard/clipboard.min.js"></script>
+<script src="maps_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="maps_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="maps_files/libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="maps_files/libs/quarto-html/popper.min.js"></script>
+<script src="maps_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="maps_files/libs/quarto-html/anchor.min.js"></script>
+<link href="maps_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="maps_files/libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="maps_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="maps_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="maps_files/libs/bootstrap/bootstrap-89908e3058330c25e41ba8a761622381.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+<script type="text/javascript">
+window.PlotlyConfig = {MathJaxConfig: 'local'};
+if (window.MathJax && window.MathJax.Hub && window.MathJax.Hub.Config) {window.MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}
+</script>
+<script type="module">import "https://cdn.plot.ly/plotly-3.3.0.min"</script>
+
+
+
+</head>
+
+<body class="quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article toc-left">
+<div id="quarto-sidebar-toc-left" class="sidebar toc-left">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#introducción" id="toc-introducción" class="nav-link active" data-scroll-target="#introducción">Introducción</a>
+  <ul class="collapse">
+  <li><a href="#por-qué-visualizar-datos-geográficos" id="toc-por-qué-visualizar-datos-geográficos" class="nav-link" data-scroll-target="#por-qué-visualizar-datos-geográficos">¿Por qué visualizar datos geográficos?</a></li>
+  </ul></li>
+  <li><a href="#preparación-de-datos" id="toc-preparación-de-datos" class="nav-link" data-scroll-target="#preparación-de-datos">Preparación de Datos</a>
+  <ul class="collapse">
+  <li><a href="#nota-sobre-coordenadas-geográficas" id="toc-nota-sobre-coordenadas-geográficas" class="nav-link" data-scroll-target="#nota-sobre-coordenadas-geográficas">Nota sobre coordenadas geográficas</a></li>
+  </ul></li>
+  <li><a href="#mapa-interactivo-con-rutas" id="toc-mapa-interactivo-con-rutas" class="nav-link" data-scroll-target="#mapa-interactivo-con-rutas">Mapa Interactivo con Rutas</a></li>
+  <li><a href="#conceptos-clave-en-visualización-geográfica" id="toc-conceptos-clave-en-visualización-geográfica" class="nav-link" data-scroll-target="#conceptos-clave-en-visualización-geográfica">Conceptos Clave en Visualización Geográfica</a>
+  <ul class="collapse">
+  <li><a href="#proyecciones-cartográficas" id="toc-proyecciones-cartográficas" class="nav-link" data-scroll-target="#proyecciones-cartográficas">1. Proyecciones Cartográficas</a></li>
+  <li><a href="#scattergeo-vs-choropleth" id="toc-scattergeo-vs-choropleth" class="nav-link" data-scroll-target="#scattergeo-vs-choropleth">2. Scattergeo vs Choropleth</a></li>
+  <li><a href="#capas-y-trazas" id="toc-capas-y-trazas" class="nav-link" data-scroll-target="#capas-y-trazas">3. Capas y Trazas</a></li>
+  <li><a href="#interactividad" id="toc-interactividad" class="nav-link" data-scroll-target="#interactividad">4. Interactividad</a></li>
+  </ul></li>
+  <li><a href="#conclusión" id="toc-conclusión" class="nav-link" data-scroll-target="#conclusión">Conclusión</a></li>
+  </ul>
+</nav>
+</div>
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">🌍 Visualización de Datos Geográficos: Mi Mapa de Viajes</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Fabricio Lennart </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">November 30, 2025</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introducción" class="level2">
+<h2 class="anchored" data-anchor-id="introducción">Introducción</h2>
+<p>La visualización de datos geográficos es una herramienta poderosa para contar historias con ubicaciones. En este proyecto, exploramos diferentes formas de representar datos de viajes usando <strong>Plotly</strong>, una biblioteca de Python que permite crear gráficos interactivos.</p>
+<p><strong>Mi historia de viajes:</strong> - 🇧🇴 Empecé en Bolivia (país natal) - Viajé a República Dominicana, Argentina y Brasil - 🇧🇷 Actualmente vivo en Brasil - Desde aquí planeo mis próximos destinos</p>
+<section id="por-qué-visualizar-datos-geográficos" class="level3">
+<h3 class="anchored" data-anchor-id="por-qué-visualizar-datos-geográficos">¿Por qué visualizar datos geográficos?</h3>
+<ul>
+<li><strong>Contexto espacial</strong>: Los mapas ayudan a entender relaciones geográficas de forma intuitiva</li>
+<li><strong>Interactividad</strong>: Permite explorar los datos haciendo hover, zoom, y filtros</li>
+<li><strong>Storytelling</strong>: Comunica narrativas personales o patrones globales de forma visual</li>
+</ul>
+<p>En este caso, creamos un mapa personal de viajes que muestra:</p>
+<ul>
+<li>🟢 <strong>Países visitados</strong> (en verde): Bolivia, República Dominicana, Argentina, Brasil</li>
+<li>🔴 <strong>Bucket list</strong> (en rojo, con líneas desde Brasil): Mis próximos destinos soñados</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="preparación-de-datos" class="level2">
+<h2 class="anchored" data-anchor-id="preparación-de-datos">Preparación de Datos</h2>
+<div id="0a93a768" class="cell" data-execution_count="1">
+<details class="code-fold">
+<summary>Ver Código</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotly.graph_objects <span class="im">as</span> go</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Cargar datos desde CSV</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>path <span class="op">=</span> <span class="st">"/home/fabri/Projects/data-visualization-gallery/resources/paises.csv"</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(path)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Definir coordenadas geográficas (latitud, longitud) para cada país</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Estas coordenadas representan aproximadamente el centro geográfico de cada país</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>coords <span class="op">=</span> {</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">'ARG'</span>: (<span class="op">-</span><span class="fl">38.4161</span>, <span class="op">-</span><span class="fl">63.6167</span>),   <span class="co"># Argentina</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">'BRA'</span>: (<span class="op">-</span><span class="fl">14.2350</span>, <span class="op">-</span><span class="fl">51.9253</span>),   <span class="co"># Brasil</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">'BOL'</span>: (<span class="op">-</span><span class="fl">16.2902</span>, <span class="op">-</span><span class="fl">63.5887</span>),   <span class="co"># Bolivia</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">'DOM'</span>: (<span class="fl">18.7357</span>, <span class="op">-</span><span class="fl">70.1627</span>),    <span class="co"># República Dominicana</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">'ESP'</span>: (<span class="fl">40.4637</span>, <span class="op">-</span><span class="fl">3.7492</span>),     <span class="co"># España</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">'POL'</span>: (<span class="fl">51.9194</span>, <span class="fl">19.1451</span>),     <span class="co"># Polonia</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">'AUS'</span>: (<span class="op">-</span><span class="fl">25.2744</span>, <span class="fl">133.7751</span>),   <span class="co"># Australia</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">'ARE'</span>: (<span class="fl">23.4241</span>, <span class="fl">53.8478</span>),     <span class="co"># Emiratos Árabes (Dubai)</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">'JPN'</span>: (<span class="fl">36.2048</span>, <span class="fl">138.2529</span>),    <span class="co"># Japón</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">'CHN'</span>: (<span class="fl">35.8617</span>, <span class="fl">104.1954</span>),    <span class="co"># China</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">'USA'</span>: (<span class="fl">37.0902</span>, <span class="op">-</span><span class="fl">95.7129</span>)     <span class="co"># Estados Unidos</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Agregar coordenadas al DataFrame</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'lat'</span>] <span class="op">=</span> df[<span class="st">'country_code'</span>].<span class="bu">map</span>(<span class="kw">lambda</span> x: coords.get(x, (<span class="dv">0</span>,<span class="dv">0</span>))[<span class="dv">0</span>])</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'lon'</span>] <span class="op">=</span> df[<span class="st">'country_code'</span>].<span class="bu">map</span>(<span class="kw">lambda</span> x: coords.get(x, (<span class="dv">0</span>,<span class="dv">0</span>))[<span class="dv">1</span>])</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Total de países: </span><span class="sc">{</span><span class="bu">len</span>(df)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Visitados: </span><span class="sc">{</span><span class="bu">len</span>(df[df[<span class="st">'interest_category'</span>] <span class="op">==</span> <span class="st">'Conozco'</span>])<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Por visitar: </span><span class="sc">{</span><span class="bu">len</span>(df[df[<span class="st">'interest_category'</span>] <span class="op">==</span> <span class="st">'Quiero Conocer'</span>])<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Total de países: 11
+Visitados: 4
+Por visitar: 7</code></pre>
+</div>
+</div>
+<section id="nota-sobre-coordenadas-geográficas" class="level3">
+<h3 class="anchored" data-anchor-id="nota-sobre-coordenadas-geográficas">Nota sobre coordenadas geográficas</h3>
+<p>Las coordenadas geográficas se expresan como pares <code>(latitud, longitud)</code>:</p>
+<ul>
+<li><strong>Latitud</strong>: De -90° (Polo Sur) a +90° (Polo Norte)</li>
+<li><strong>Longitud</strong>: De -180° (oeste) a +180° (este), con 0° en Greenwich, Londres</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="mapa-interactivo-con-rutas" class="level2">
+<h2 class="anchored" data-anchor-id="mapa-interactivo-con-rutas">Mapa Interactivo con Rutas</h2>
+<p>Este mapa utiliza <code>plotly.graph_objects</code> para crear una visualización personalizada que muestra:</p>
+<ol type="1">
+<li><strong>Países visitados</strong> como círculos sólidos verdes</li>
+<li><strong>Destinos deseados</strong> como círculos rojos con líneas punteadas desde Argentina</li>
+<li><strong>Interactividad</strong> al pasar el mouse sobre cada país</li>
+</ol>
+<div id="0dc7557a" class="cell" data-execution_count="2">
+<details class="code-fold">
+<summary>Ver Código</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear figura vacía</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> go.Figure()</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Coordenadas de Brasil (ubicación actual - punto de partida para futuros viajes)</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>brasil_lat, brasil_lon <span class="op">=</span> coords[<span class="st">'BRA'</span>]</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># PASO 1: Visualizar países visitados (verde)</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>visited <span class="op">=</span> df[df[<span class="st">'interest_category'</span>] <span class="op">==</span> <span class="st">'Conozco'</span>]</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> _, row <span class="kw">in</span> visited.iterrows():</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    fig.add_trace(go.Scattergeo(</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>        lon<span class="op">=</span>[row[<span class="st">'lon'</span>]],</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>        lat<span class="op">=</span>[row[<span class="st">'lat'</span>]],</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>        mode<span class="op">=</span><span class="st">'markers+text'</span>,</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>        marker<span class="op">=</span><span class="bu">dict</span>(</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>            size<span class="op">=</span><span class="dv">25</span>, </span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>            color<span class="op">=</span><span class="st">'#27ae60'</span>,           <span class="co"># Verde</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>            line<span class="op">=</span><span class="bu">dict</span>(width<span class="op">=</span><span class="dv">2</span>, color<span class="op">=</span><span class="st">'white'</span>)  <span class="co"># Borde blanco</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>        ),</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>        text<span class="op">=</span>row[<span class="st">'country_name'</span>],</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>        textposition<span class="op">=</span><span class="st">"top center"</span>,</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>        textfont<span class="op">=</span><span class="bu">dict</span>(size<span class="op">=</span><span class="dv">10</span>, color<span class="op">=</span><span class="st">'#27ae60'</span>, family<span class="op">=</span><span class="st">'Arial Black'</span>),</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>        name<span class="op">=</span><span class="st">'Visitado'</span>,</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>        showlegend<span class="op">=</span>(row[<span class="st">'country_code'</span>] <span class="op">==</span> <span class="st">'ARG'</span>),  <span class="co"># Solo mostrar una vez en leyenda</span></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>        hovertemplate<span class="op">=</span><span class="ss">f"&lt;b&gt;</span><span class="sc">{</span>row[<span class="st">'country_name'</span>]<span class="sc">}</span><span class="ss">&lt;/b&gt;&lt;br&gt;</span><span class="sc">{</span>row[<span class="st">'notes'</span>]<span class="sc">}</span><span class="ss">&lt;extra&gt;&lt;/extra&gt;"</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>    ))</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a><span class="co"># PASO 2: Visualizar bucket list con líneas desde Brasil (rojo)</span></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>to_visit <span class="op">=</span> df[df[<span class="st">'interest_category'</span>] <span class="op">==</span> <span class="st">'Quiero Conocer'</span>]</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> _, row <span class="kw">in</span> to_visit.iterrows():</span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Dibujar línea desde Brasil hasta el destino</span></span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>    fig.add_trace(go.Scattergeo(</span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>        lon<span class="op">=</span>[brasil_lon, row[<span class="st">'lon'</span>]],</span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>        lat<span class="op">=</span>[brasil_lat, row[<span class="st">'lat'</span>]],</span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>        mode<span class="op">=</span><span class="st">'lines'</span>,</span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>        line<span class="op">=</span><span class="bu">dict</span>(</span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>            width<span class="op">=</span><span class="dv">1</span>, </span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>            color<span class="op">=</span><span class="st">'rgba(231, 76, 60, 0.3)'</span>,  <span class="co"># Rojo semi-transparente</span></span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>            dash<span class="op">=</span><span class="st">'dot'</span>                        <span class="co"># Línea punteada</span></span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>        ),</span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>        showlegend<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>        hoverinfo<span class="op">=</span><span class="st">'skip'</span></span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a>    ))</span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Agregar marcador del destino</span></span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a>    fig.add_trace(go.Scattergeo(</span>
+<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a>        lon<span class="op">=</span>[row[<span class="st">'lon'</span>]],</span>
+<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a>        lat<span class="op">=</span>[row[<span class="st">'lat'</span>]],</span>
+<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a>        mode<span class="op">=</span><span class="st">'markers+text'</span>,</span>
+<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a>        marker<span class="op">=</span><span class="bu">dict</span>(</span>
+<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a>            size<span class="op">=</span><span class="dv">20</span>, </span>
+<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a>            color<span class="op">=</span><span class="st">'#e74c3c'</span>,           <span class="co"># Rojo</span></span>
+<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a>            line<span class="op">=</span><span class="bu">dict</span>(width<span class="op">=</span><span class="dv">2</span>, color<span class="op">=</span><span class="st">'white'</span>)</span>
+<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a>        ),</span>
+<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a>        text<span class="op">=</span>row[<span class="st">'country_name'</span>],</span>
+<span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a>        textposition<span class="op">=</span><span class="st">"top center"</span>,</span>
+<span id="cb3-58"><a href="#cb3-58" aria-hidden="true" tabindex="-1"></a>        textfont<span class="op">=</span><span class="bu">dict</span>(size<span class="op">=</span><span class="dv">10</span>, color<span class="op">=</span><span class="st">'#e74c3c'</span>, family<span class="op">=</span><span class="st">'Arial Black'</span>),</span>
+<span id="cb3-59"><a href="#cb3-59" aria-hidden="true" tabindex="-1"></a>        name<span class="op">=</span><span class="st">'Bucket List'</span>,</span>
+<span id="cb3-60"><a href="#cb3-60" aria-hidden="true" tabindex="-1"></a>        showlegend<span class="op">=</span>(row[<span class="st">'country_code'</span>] <span class="op">==</span> <span class="st">'ESP'</span>),  <span class="co"># Solo mostrar una vez</span></span>
+<span id="cb3-61"><a href="#cb3-61" aria-hidden="true" tabindex="-1"></a>        hovertemplate<span class="op">=</span><span class="ss">f"&lt;b&gt;</span><span class="sc">{</span>row[<span class="st">'country_name'</span>]<span class="sc">}</span><span class="ss">&lt;/b&gt;&lt;br&gt;</span><span class="sc">{</span>row[<span class="st">'notes'</span>]<span class="sc">}</span><span class="ss">&lt;extra&gt;&lt;/extra&gt;"</span></span>
+<span id="cb3-62"><a href="#cb3-62" aria-hidden="true" tabindex="-1"></a>    ))</span>
+<span id="cb3-63"><a href="#cb3-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-64"><a href="#cb3-64" aria-hidden="true" tabindex="-1"></a><span class="co"># PASO 3: Configurar el mapa base</span></span>
+<span id="cb3-65"><a href="#cb3-65" aria-hidden="true" tabindex="-1"></a>fig.update_geos(</span>
+<span id="cb3-66"><a href="#cb3-66" aria-hidden="true" tabindex="-1"></a>    showcountries<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb3-67"><a href="#cb3-67" aria-hidden="true" tabindex="-1"></a>    countrycolor<span class="op">=</span><span class="st">"#e0e0e0"</span>,      <span class="co"># Países en gris claro</span></span>
+<span id="cb3-68"><a href="#cb3-68" aria-hidden="true" tabindex="-1"></a>    showcoastlines<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb3-69"><a href="#cb3-69" aria-hidden="true" tabindex="-1"></a>    coastlinecolor<span class="op">=</span><span class="st">"#b0b0b0"</span>,    <span class="co"># Costas en gris</span></span>
+<span id="cb3-70"><a href="#cb3-70" aria-hidden="true" tabindex="-1"></a>    showland<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb3-71"><a href="#cb3-71" aria-hidden="true" tabindex="-1"></a>    landcolor<span class="op">=</span><span class="st">"#fafafa"</span>,         <span class="co"># Tierra en blanco</span></span>
+<span id="cb3-72"><a href="#cb3-72" aria-hidden="true" tabindex="-1"></a>    showocean<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb3-73"><a href="#cb3-73" aria-hidden="true" tabindex="-1"></a>    oceancolor<span class="op">=</span><span class="st">"#d4e8f0"</span>,        <span class="co"># Océano en azul claro</span></span>
+<span id="cb3-74"><a href="#cb3-74" aria-hidden="true" tabindex="-1"></a>    projection_type<span class="op">=</span><span class="st">'natural earth'</span>  <span class="co"># Proyección cartográfica</span></span>
+<span id="cb3-75"><a href="#cb3-75" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-76"><a href="#cb3-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-77"><a href="#cb3-77" aria-hidden="true" tabindex="-1"></a><span class="co"># PASO 4: Configurar diseño general</span></span>
+<span id="cb3-78"><a href="#cb3-78" aria-hidden="true" tabindex="-1"></a>fig.update_layout(</span>
+<span id="cb3-79"><a href="#cb3-79" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="st">'✈️ Mis Próximos Destinos desde Brasil'</span>,</span>
+<span id="cb3-80"><a href="#cb3-80" aria-hidden="true" tabindex="-1"></a>    title_x<span class="op">=</span><span class="fl">0.5</span>,</span>
+<span id="cb3-81"><a href="#cb3-81" aria-hidden="true" tabindex="-1"></a>    title_font_size<span class="op">=</span><span class="dv">18</span>,</span>
+<span id="cb3-82"><a href="#cb3-82" aria-hidden="true" tabindex="-1"></a>    height<span class="op">=</span><span class="dv">600</span>,</span>
+<span id="cb3-83"><a href="#cb3-83" aria-hidden="true" tabindex="-1"></a>    margin<span class="op">=</span>{<span class="st">"r"</span>:<span class="dv">10</span>,<span class="st">"t"</span>:<span class="dv">60</span>,<span class="st">"l"</span>:<span class="dv">10</span>,<span class="st">"b"</span>:<span class="dv">10</span>},</span>
+<span id="cb3-84"><a href="#cb3-84" aria-hidden="true" tabindex="-1"></a>    showlegend<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb3-85"><a href="#cb3-85" aria-hidden="true" tabindex="-1"></a>    legend<span class="op">=</span><span class="bu">dict</span>(x<span class="op">=</span><span class="fl">0.01</span>, y<span class="op">=</span><span class="fl">0.99</span>)</span>
+<span id="cb3-86"><a href="#cb3-86" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-87"><a href="#cb3-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-88"><a href="#cb3-88" aria-hidden="true" tabindex="-1"></a>fig.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>            <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_SVG"></script><script type="text/javascript">if (window.MathJax && window.MathJax.Hub && window.MathJax.Hub.Config) {window.MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}</script>                <script type="text/javascript">window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
+        <script charset="utf-8" src="https://cdn.plot.ly/plotly-3.3.0.min.js" integrity="sha256-bO3dS6yCpk9aK4gUpNELtCiDeSYvGYnK7jFI58NQnHI=" crossorigin="anonymous"></script>                <div id="69fa45d1-2f5e-422a-a455-b3425e9e3d25" class="plotly-graph-div" style="height:600px; width:100%;"></div>            <script type="text/javascript">                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("69fa45d1-2f5e-422a-a455-b3425e9e3d25")) {                    Plotly.newPlot(                        "69fa45d1-2f5e-422a-a455-b3425e9e3d25",                        [{"hovertemplate":"\u003cb\u003eArgentina\u003c\u002fb\u003e\u003cbr\u003eYa visitado\u003cextra\u003e\u003c\u002fextra\u003e","lat":[-38.4161],"lon":[-63.6167],"marker":{"color":"#27ae60","line":{"color":"white","width":2},"size":25},"mode":"markers+text","name":"Visitado","showlegend":true,"text":"Argentina","textfont":{"color":"#27ae60","family":"Arial Black","size":10},"textposition":"top center","type":"scattergeo"},{"hovertemplate":"\u003cb\u003eBrasil\u003c\u002fb\u003e\u003cbr\u003eYa visitado\u003cextra\u003e\u003c\u002fextra\u003e","lat":[-14.235],"lon":[-51.9253],"marker":{"color":"#27ae60","line":{"color":"white","width":2},"size":25},"mode":"markers+text","name":"Visitado","showlegend":false,"text":"Brasil","textfont":{"color":"#27ae60","family":"Arial Black","size":10},"textposition":"top center","type":"scattergeo"},{"hovertemplate":"\u003cb\u003eBolivia\u003c\u002fb\u003e\u003cbr\u003ePa\u00eds natal\u003cextra\u003e\u003c\u002fextra\u003e","lat":[-16.2902],"lon":[-63.5887],"marker":{"color":"#27ae60","line":{"color":"white","width":2},"size":25},"mode":"markers+text","name":"Visitado","showlegend":false,"text":"Bolivia","textfont":{"color":"#27ae60","family":"Arial Black","size":10},"textposition":"top center","type":"scattergeo"},{"hovertemplate":"\u003cb\u003eRep\u00fablica Dominicana\u003c\u002fb\u003e\u003cbr\u003eYa visitado\u003cextra\u003e\u003c\u002fextra\u003e","lat":[18.7357],"lon":[-70.1627],"marker":{"color":"#27ae60","line":{"color":"white","width":2},"size":25},"mode":"markers+text","name":"Visitado","showlegend":false,"text":"Rep\u00fablica Dominicana","textfont":{"color":"#27ae60","family":"Arial Black","size":10},"textposition":"top center","type":"scattergeo"},{"hoverinfo":"skip","lat":[-14.235,40.4637],"line":{"color":"rgba(231, 76, 60, 0.3)","dash":"dot","width":1},"lon":[-51.9253,-3.7492],"mode":"lines","showlegend":false,"type":"scattergeo"},{"hovertemplate":"\u003cb\u003eEspa\u00f1a\u003c\u002fb\u003e\u003cbr\u003eArquitectura y cultura\u003cextra\u003e\u003c\u002fextra\u003e","lat":[40.4637],"lon":[-3.7492],"marker":{"color":"#e74c3c","line":{"color":"white","width":2},"size":20},"mode":"markers+text","name":"Bucket List","showlegend":true,"text":"Espa\u00f1a","textfont":{"color":"#e74c3c","family":"Arial Black","size":10},"textposition":"top center","type":"scattergeo"},{"hoverinfo":"skip","lat":[-14.235,51.9194],"line":{"color":"rgba(231, 76, 60, 0.3)","dash":"dot","width":1},"lon":[-51.9253,19.1451],"mode":"lines","showlegend":false,"type":"scattergeo"},{"hovertemplate":"\u003cb\u003ePolonia\u003c\u002fb\u003e\u003cbr\u003eHistoria y ciudades\u003cextra\u003e\u003c\u002fextra\u003e","lat":[51.9194],"lon":[19.1451],"marker":{"color":"#e74c3c","line":{"color":"white","width":2},"size":20},"mode":"markers+text","name":"Bucket List","showlegend":false,"text":"Polonia","textfont":{"color":"#e74c3c","family":"Arial Black","size":10},"textposition":"top center","type":"scattergeo"},{"hoverinfo":"skip","lat":[-14.235,-25.2744],"line":{"color":"rgba(231, 76, 60, 0.3)","dash":"dot","width":1},"lon":[-51.9253,133.7751],"mode":"lines","showlegend":false,"type":"scattergeo"},{"hovertemplate":"\u003cb\u003eAustralia\u003c\u002fb\u003e\u003cbr\u003eNaturaleza incre\u00edble\u003cextra\u003e\u003c\u002fextra\u003e","lat":[-25.2744],"lon":[133.7751],"marker":{"color":"#e74c3c","line":{"color":"white","width":2},"size":20},"mode":"markers+text","name":"Bucket List","showlegend":false,"text":"Australia","textfont":{"color":"#e74c3c","family":"Arial Black","size":10},"textposition":"top center","type":"scattergeo"},{"hoverinfo":"skip","lat":[-14.235,23.4241],"line":{"color":"rgba(231, 76, 60, 0.3)","dash":"dot","width":1},"lon":[-51.9253,53.8478],"mode":"lines","showlegend":false,"type":"scattergeo"},{"hovertemplate":"\u003cb\u003eEmiratos \u00c1rabes Unidos\u003c\u002fb\u003e\u003cbr\u003eDubai - arquitectura moderna\u003cextra\u003e\u003c\u002fextra\u003e","lat":[23.4241],"lon":[53.8478],"marker":{"color":"#e74c3c","line":{"color":"white","width":2},"size":20},"mode":"markers+text","name":"Bucket List","showlegend":false,"text":"Emiratos \u00c1rabes Unidos","textfont":{"color":"#e74c3c","family":"Arial Black","size":10},"textposition":"top center","type":"scattergeo"},{"hoverinfo":"skip","lat":[-14.235,36.2048],"line":{"color":"rgba(231, 76, 60, 0.3)","dash":"dot","width":1},"lon":[-51.9253,138.2529],"mode":"lines","showlegend":false,"type":"scattergeo"},{"hovertemplate":"\u003cb\u003eJap\u00f3n\u003c\u002fb\u003e\u003cbr\u003eCultura y tecnolog\u00eda\u003cextra\u003e\u003c\u002fextra\u003e","lat":[36.2048],"lon":[138.2529],"marker":{"color":"#e74c3c","line":{"color":"white","width":2},"size":20},"mode":"markers+text","name":"Bucket List","showlegend":false,"text":"Jap\u00f3n","textfont":{"color":"#e74c3c","family":"Arial Black","size":10},"textposition":"top center","type":"scattergeo"},{"hoverinfo":"skip","lat":[-14.235,35.8617],"line":{"color":"rgba(231, 76, 60, 0.3)","dash":"dot","width":1},"lon":[-51.9253,104.1954],"mode":"lines","showlegend":false,"type":"scattergeo"},{"hovertemplate":"\u003cb\u003eChina\u003c\u002fb\u003e\u003cbr\u003eGran Muralla y cultura milenaria\u003cextra\u003e\u003c\u002fextra\u003e","lat":[35.8617],"lon":[104.1954],"marker":{"color":"#e74c3c","line":{"color":"white","width":2},"size":20},"mode":"markers+text","name":"Bucket List","showlegend":false,"text":"China","textfont":{"color":"#e74c3c","family":"Arial Black","size":10},"textposition":"top center","type":"scattergeo"},{"hoverinfo":"skip","lat":[-14.235,37.0902],"line":{"color":"rgba(231, 76, 60, 0.3)","dash":"dot","width":1},"lon":[-51.9253,-95.7129],"mode":"lines","showlegend":false,"type":"scattergeo"},{"hovertemplate":"\u003cb\u003eEstados Unidos\u003c\u002fb\u003e\u003cbr\u003eDiversidad y ciudades ic\u00f3nicas\u003cextra\u003e\u003c\u002fextra\u003e","lat":[37.0902],"lon":[-95.7129],"marker":{"color":"#e74c3c","line":{"color":"white","width":2},"size":20},"mode":"markers+text","name":"Bucket List","showlegend":false,"text":"Estados Unidos","textfont":{"color":"#e74c3c","family":"Arial Black","size":10},"textposition":"top center","type":"scattergeo"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermap":[{"type":"scattermap","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"},"margin":{"b":0,"l":0,"r":0,"t":30}}},"geo":{"projection":{"type":"natural earth"},"showcountries":true,"countrycolor":"#e0e0e0","showcoastlines":true,"coastlinecolor":"#b0b0b0","showland":true,"landcolor":"#fafafa","showocean":true,"oceancolor":"#d4e8f0"},"title":{"text":"\u2708\ufe0f Mis Pr\u00f3ximos Destinos desde Brasil","x":0.5,"font":{"size":18}},"margin":{"r":10,"t":60,"l":10,"b":10},"legend":{"x":0.01,"y":0.99},"height":600,"showlegend":true},                        {"responsive": true}                    ).then(function(){
+                            
+var gd = document.getElementById('69fa45d1-2f5e-422a-a455-b3425e9e3d25');
+var x = new MutationObserver(function (mutations, observer) {{
+        var display = window.getComputedStyle(gd).display;
+        if (!display || display === 'none') {{
+            console.log([gd, 'removed!']);
+            Plotly.purge(gd);
+            observer.disconnect();
+        }}
+}});
+
+// Listen for the removal of the full notebook cells
+var notebookContainer = gd.closest('#notebook-container');
+if (notebookContainer) {{
+    x.observe(notebookContainer, {childList: true});
+}}
+
+// Listen for the clearing of the current output cell
+var outputEl = gd.closest('.output');
+if (outputEl) {{
+    x.observe(outputEl, {childList: true});
+}}
+
+                        })                };            </script>        </div>
+</div>
+</div>
+<hr>
+</section>
+<section id="conceptos-clave-en-visualización-geográfica" class="level2">
+<h2 class="anchored" data-anchor-id="conceptos-clave-en-visualización-geográfica">Conceptos Clave en Visualización Geográfica</h2>
+<section id="proyecciones-cartográficas" class="level3">
+<h3 class="anchored" data-anchor-id="proyecciones-cartográficas">1. Proyecciones Cartográficas</h3>
+<p>Un mapa 2D de la Tierra siempre distorsiona de alguna forma. Plotly ofrece varias proyecciones:</p>
+<ul>
+<li><strong>Natural Earth</strong>: Balanceada, ideal para mapas mundiales (usada aquí)</li>
+<li><strong>Mercator</strong>: Distorsiona tamaños cerca de los polos</li>
+<li><strong>Orthographic</strong>: Vista de globo terráqueo</li>
+</ul>
+</section>
+<section id="scattergeo-vs-choropleth" class="level3">
+<h3 class="anchored" data-anchor-id="scattergeo-vs-choropleth">2. Scattergeo vs Choropleth</h3>
+<ul>
+<li><strong>Scattergeo</strong> (usado aquí): Puntos y líneas sobre un mapa, ideal para rutas y ubicaciones específicas</li>
+<li><strong>Choropleth</strong>: Países coloreados según una variable (densidad, categorías), ideal para comparaciones regionales</li>
+</ul>
+</section>
+<section id="capas-y-trazas" class="level3">
+<h3 class="anchored" data-anchor-id="capas-y-trazas">3. Capas y Trazas</h3>
+<p>Plotly permite superponer múltiples capas (<code>traces</code>). En este mapa:</p>
+<ul>
+<li>Cada país es una traza independiente</li>
+<li>Las líneas son trazas adicionales</li>
+<li>Esto permite control granular sobre estilos y hover</li>
+</ul>
+</section>
+<section id="interactividad" class="level3">
+<h3 class="anchored" data-anchor-id="interactividad">4. Interactividad</h3>
+<p>Los mapas de Plotly incluyen automáticamente:</p>
+<ul>
+<li><strong>Zoom</strong> con scroll del mouse</li>
+<li><strong>Pan</strong> arrastrando el mapa</li>
+<li><strong>Hover</strong> para mostrar información detallada</li>
+<li><strong>Leyenda</strong> clickeable para mostrar/ocultar categorías</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="conclusión" class="level2">
+<h2 class="anchored" data-anchor-id="conclusión">Conclusión</h2>
+<p>Este proyecto demuestra cómo transformar datos tabulares simples (países, coordenadas, categorías) en una narrativa visual geográfica interactiva. La visualización de datos geográficos es especialmente útil en:</p>
+<ul>
+<li>Análisis de logística y rutas</li>
+<li>Dashboards de ventas por región</li>
+<li>Estudios de migración y demografía</li>
+<li>Mapas de proyectos personales (como este)</li>
+</ul>
+<p><strong>Próximos pasos</strong>: Podrías extender este proyecto agregando fechas de viaje, fotos, o conectándolo con APIs de clima o costos de vuelos.</p>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
