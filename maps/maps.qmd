@@ -1,0 +1,230 @@
+---
+title: "🌍 Visualización de Datos Geográficos: Mi Mapa de Viajes"
+author: "Fabricio Lennart"
+date: "2025-11-30"
+format:
+  html:
+    theme: flatly
+    toc: true
+    toc-location: left
+    code-fold: true
+    code-summary: "Ver Código"
+jupyter: python3
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+## Introducción
+
+La visualización de datos geográficos es una herramienta poderosa para contar historias con ubicaciones. En este proyecto, exploramos diferentes formas de representar datos de viajes usando **Plotly**, una biblioteca de Python que permite crear gráficos interactivos.
+
+**Mi historia de viajes:**
+- 🇧🇴 Empecé en Bolivia (país natal)
+- Viajé a República Dominicana, Argentina y Brasil
+- 🇧🇷 Actualmente vivo en Brasil
+- Desde aquí planeo mis próximos destinos
+
+### ¿Por qué visualizar datos geográficos?
+
+- **Contexto espacial**: Los mapas ayudan a entender relaciones geográficas de forma intuitiva
+- **Interactividad**: Permite explorar los datos haciendo hover, zoom, y filtros
+- **Storytelling**: Comunica narrativas personales o patrones globales de forma visual
+
+En este caso, creamos un mapa personal de viajes que muestra:
+
+- 🟢 **Países visitados** (en verde): Bolivia, República Dominicana, Argentina, Brasil
+- 🔴 **Bucket list** (en rojo, con líneas desde Brasil): Mis próximos destinos soñados
+
+---
+
+## Preparación de Datos
+
+```{python}
+import pandas as pd
+import plotly.graph_objects as go
+
+# Cargar datos desde CSV
+path = "/home/fabri/Projects/data-visualization-gallery/resources/paises.csv"
+df = pd.read_csv(path)
+
+# Definir coordenadas geográficas (latitud, longitud) para cada país
+# Estas coordenadas representan aproximadamente el centro geográfico de cada país
+coords = {
+    'ARG': (-38.4161, -63.6167),   # Argentina
+    'BRA': (-14.2350, -51.9253),   # Brasil
+    'BOL': (-16.2902, -63.5887),   # Bolivia
+    'DOM': (18.7357, -70.1627),    # República Dominicana
+    'ESP': (40.4637, -3.7492),     # España
+    'POL': (51.9194, 19.1451),     # Polonia
+    'AUS': (-25.2744, 133.7751),   # Australia
+    'ARE': (23.4241, 53.8478),     # Emiratos Árabes (Dubai)
+    'JPN': (36.2048, 138.2529),    # Japón
+    'CHN': (35.8617, 104.1954),    # China
+    'USA': (37.0902, -95.7129)     # Estados Unidos
+}
+
+# Agregar coordenadas al DataFrame
+df['lat'] = df['country_code'].map(lambda x: coords.get(x, (0,0))[0])
+df['lon'] = df['country_code'].map(lambda x: coords.get(x, (0,0))[1])
+
+print(f"Total de países: {len(df)}")
+print(f"Visitados: {len(df[df['interest_category'] == 'Conozco'])}")
+print(f"Por visitar: {len(df[df['interest_category'] == 'Quiero Conocer'])}")
+```
+
+### Nota sobre coordenadas geográficas
+
+Las coordenadas geográficas se expresan como pares `(latitud, longitud)`:
+
+- **Latitud**: De -90° (Polo Sur) a +90° (Polo Norte)
+- **Longitud**: De -180° (oeste) a +180° (este), con 0° en Greenwich, Londres
+
+---
+
+## Mapa Interactivo con Rutas
+
+Este mapa utiliza `plotly.graph_objects` para crear una visualización personalizada que muestra:
+
+1. **Países visitados** como círculos sólidos verdes
+2. **Destinos deseados** como círculos rojos con líneas punteadas desde Argentina
+3. **Interactividad** al pasar el mouse sobre cada país
+
+```{python}
+# Crear figura vacía
+fig = go.Figure()
+
+# Coordenadas de Brasil (ubicación actual - punto de partida para futuros viajes)
+brasil_lat, brasil_lon = coords['BRA']
+
+# PASO 1: Visualizar países visitados (verde)
+visited = df[df['interest_category'] == 'Conozco']
+
+for _, row in visited.iterrows():
+    fig.add_trace(go.Scattergeo(
+        lon=[row['lon']],
+        lat=[row['lat']],
+        mode='markers+text',
+        marker=dict(
+            size=25, 
+            color='#27ae60',           # Verde
+            line=dict(width=2, color='white')  # Borde blanco
+        ),
+        text=row['country_name'],
+        textposition="top center",
+        textfont=dict(size=10, color='#27ae60', family='Arial Black'),
+        name='Visitado',
+        showlegend=(row['country_code'] == 'ARG'),  # Solo mostrar una vez en leyenda
+        hovertemplate=f"<b>{row['country_name']}</b><br>{row['notes']}<extra></extra>"
+    ))
+
+# PASO 2: Visualizar bucket list con líneas desde Brasil (rojo)
+to_visit = df[df['interest_category'] == 'Quiero Conocer']
+
+for _, row in to_visit.iterrows():
+    # Dibujar línea desde Brasil hasta el destino
+    fig.add_trace(go.Scattergeo(
+        lon=[brasil_lon, row['lon']],
+        lat=[brasil_lat, row['lat']],
+        mode='lines',
+        line=dict(
+            width=1, 
+            color='rgba(231, 76, 60, 0.3)',  # Rojo semi-transparente
+            dash='dot'                        # Línea punteada
+        ),
+        showlegend=False,
+        hoverinfo='skip'
+    ))
+    
+    # Agregar marcador del destino
+    fig.add_trace(go.Scattergeo(
+        lon=[row['lon']],
+        lat=[row['lat']],
+        mode='markers+text',
+        marker=dict(
+            size=20, 
+            color='#e74c3c',           # Rojo
+            line=dict(width=2, color='white')
+        ),
+        text=row['country_name'],
+        textposition="top center",
+        textfont=dict(size=10, color='#e74c3c', family='Arial Black'),
+        name='Bucket List',
+        showlegend=(row['country_code'] == 'ESP'),  # Solo mostrar una vez
+        hovertemplate=f"<b>{row['country_name']}</b><br>{row['notes']}<extra></extra>"
+    ))
+
+# PASO 3: Configurar el mapa base
+fig.update_geos(
+    showcountries=True,
+    countrycolor="#e0e0e0",      # Países en gris claro
+    showcoastlines=True,
+    coastlinecolor="#b0b0b0",    # Costas en gris
+    showland=True,
+    landcolor="#fafafa",         # Tierra en blanco
+    showocean=True,
+    oceancolor="#d4e8f0",        # Océano en azul claro
+    projection_type='natural earth'  # Proyección cartográfica
+)
+
+# PASO 4: Configurar diseño general
+fig.update_layout(
+    title='✈️ Mis Próximos Destinos desde Brasil',
+    title_x=0.5,
+    title_font_size=18,
+    height=600,
+    margin={"r":10,"t":60,"l":10,"b":10},
+    showlegend=True,
+    legend=dict(x=0.01, y=0.99)
+)
+
+fig.show()
+```
+
+---
+
+## Conceptos Clave en Visualización Geográfica
+
+### 1. Proyecciones Cartográficas
+
+Un mapa 2D de la Tierra siempre distorsiona de alguna forma. Plotly ofrece varias proyecciones:
+
+- **Natural Earth**: Balanceada, ideal para mapas mundiales (usada aquí)
+- **Mercator**: Distorsiona tamaños cerca de los polos
+- **Orthographic**: Vista de globo terráqueo
+
+### 2. Scattergeo vs Choropleth
+
+- **Scattergeo** (usado aquí): Puntos y líneas sobre un mapa, ideal para rutas y ubicaciones específicas
+- **Choropleth**: Países coloreados según una variable (densidad, categorías), ideal para comparaciones regionales
+
+### 3. Capas y Trazas
+
+Plotly permite superponer múltiples capas (`traces`). En este mapa:
+
+- Cada país es una traza independiente
+- Las líneas son trazas adicionales
+- Esto permite control granular sobre estilos y hover
+
+### 4. Interactividad
+
+Los mapas de Plotly incluyen automáticamente:
+
+- **Zoom** con scroll del mouse
+- **Pan** arrastrando el mapa
+- **Hover** para mostrar información detallada
+- **Leyenda** clickeable para mostrar/ocultar categorías
+
+---
+
+## Conclusión
+
+Este proyecto demuestra cómo transformar datos tabulares simples (países, coordenadas, categorías) en una narrativa visual geográfica interactiva. La visualización de datos geográficos es especialmente útil en:
+
+- Análisis de logística y rutas
+- Dashboards de ventas por región
+- Estudios de migración y demografía
+- Mapas de proyectos personales (como este)
+
+**Próximos pasos**: Podrías extender este proyecto agregando fechas de viaje, fotos, o conectándolo con APIs de clima o costos de vuelos.

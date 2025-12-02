@@ -1,8 +1,12 @@
-country_code,country_name,interest_category
-BRA,Brazil,Conozco
-ARG,Argentina,Conozco
-BOL,Bolivia,Conozco
-JPN,Japan,Quiero Conocer
-ESP,Spain,Quiero Conocer
-CHN,China,Quiero Conocer
-USA,United States,Quiero Conocer
+country_name,country_code,interest_category,continent,visit_priority,notes
+Argentina,ARG,Conozco,South America,0,Ya visitado
+Brasil,BRA,Conozco,South America,0,Ya visitado
+Bolivia,BOL,Conozco,South America,0,País natal
+República Dominicana,DOM,Conozco,North America,0,Ya visitado
+España,ESP,Quiero Conocer,Europe,1,Arquitectura y cultura
+Polonia,POL,Quiero Conocer,Europe,1,Historia y ciudades
+Australia,AUS,Quiero Conocer,Oceania,1,Naturaleza increíble
+Emiratos Árabes Unidos,ARE,Quiero Conocer,Asia,1,Dubai - arquitectura moderna
+Japón,JPN,Quiero Conocer,Asia,1,Cultura y tecnología
+China,CHN,Quiero Conocer,Asia,1,Gran Muralla y cultura milenaria
+Estados Unidos,USA,Quiero Conocer,North America,1,Diversidad y ciudades icónicas
